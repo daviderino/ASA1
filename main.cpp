@@ -18,7 +18,7 @@ public:
 		this->E = E;
 	}
 
-	void addVertix(int v) {
+	void addVertix(int value) {
 		struct vertix node;
 		node.v = v;
 		vertices.push_back(node);
