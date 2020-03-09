@@ -24,6 +24,10 @@ public:
 		adj.push_back(node);
 	}
 
+	void addEdge(int u, int v) {
+		adj[u-1].next = &adj[v-1];
+	}
+
 };
 
 
