@@ -2,7 +2,7 @@
 #include <vector>
 
 struct vertix {
-	int v;
+	int value;
 	struct vertix* next;
 };
 
@@ -17,9 +17,9 @@ public:
 		this->E = E;
 	}
 
-	void addVertix(int v) {
+	void addVertix(int value) {
 		struct vertix node;
-		node.v = v;
+		node.value = value;
 		node.next = nullptr;
 		adj.push_back(node);
 	}
