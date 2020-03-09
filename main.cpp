@@ -1,16 +1,17 @@
 #include <iostream>
 #include <vector>
+#include <list>
 
 struct vertix {
-	int value;
-	struct vertix* next;
+	int v;
+	std::list<struct vertix*> adjacencies;
 };
 
 class Graph {
 private: 
 	int V;
 	int E;
-	std::vector<vertix> adj;
+	std::vector<vertix> vertices;
 public:
 	Graph(int V, int E) {
 		this->V = V;
@@ -19,13 +20,16 @@ public:
 
 	void addVertix(int value) {
 		struct vertix node;
-		node.value = value;
-		node.next = nullptr;
-		adj.push_back(node);
+		node.v = v;
+		vertices.push_back(node);
 	}
 
 	void addEdge(int u, int v) {
-		adj[u-1].next = &adj[v-1];
+		vertices[u-1].adjacencies.push_back(&vertices[v-1]);
+	}
+
+	int getNumberVertices(){
+		return V;
 	}
 };
 
@@ -58,6 +62,13 @@ int main() {
 		const int U = std::stoi(inputU);
 		const int V = std::stoi(inputV);
 		graph->addEdge(U, V);
+	}
+
+	struct vertix* verticeMaxGrade;
+	for(int i = 0; i < graph->getNumberVertices; i++){
+		if(verticeMaxGrade == NULL){
+			
+		}
 	}
 
 
