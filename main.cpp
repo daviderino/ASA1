@@ -20,7 +20,7 @@ public:
 
 	void addVertix(int value) {
 		struct vertix node;
-		node.v = v;
+		node.v = value;
 		vertices.push_back(node);
 	}
 
@@ -65,7 +65,7 @@ int main() {
 	}
 
 	struct vertix* verticeMaxGrade;
-	for(int i = 0; i < graph->getNumberVertices; i++){
+	for(int i = 0; i < graph->getNumberVertices(); i++){
 		if(verticeMaxGrade == NULL){
 			
 		}
