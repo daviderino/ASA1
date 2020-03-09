@@ -27,19 +27,21 @@ public:
 	void addEdge(int u, int v) {
 		adj[u-1].next = &adj[v-1];
 	}
-
 };
 
 
 int main() {
-	std::string input1, input2;
+	std::string inputN, inputM;
 	std::string inputVertix;
+	std::string inputU, inputV;
 
-	getline(std::cin, input1, ',');
-	getline(std::cin, input2);
+	getline(std::cin, inputN, ',');
+	getline(std::cin, inputM);
 	
-	const int N = std::stoi(input1);
-	const int M = std::stoi(input2);
+	const int N = std::stoi(inputN);
+	const int M = std::stoi(inputM);
+
+
 
 	Graph *graph = new Graph(N, M);
 
@@ -51,8 +53,14 @@ int main() {
 	}
 
 	for(int i = 0; i < M; i++) {
-
+		getline(std::cin, inputU, ' ');
+		getline(std::cin, inputV);
+		const int U = std::stoi(inputU);
+		const int V = std::stoi(inputV);
+		graph->addEdge(U, V);
 	}
+
+
 
     return 0;
 }
