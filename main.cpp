@@ -4,7 +4,8 @@
 
 struct vertix {
 	int v;
-	std::list<struct vertix*> adjacencies;
+	bool corrected = false;
+	std::vector<struct vertix*> adjacencies;
 };
 
 class Graph {
@@ -31,13 +32,19 @@ public:
 	int getNumberVertices(){
 		return V;
 	}
-};
 
+	struct vertix* getVertix(int i) {
+        return &vertices[i];
+	}
+};
 
 int main() {
 	std::string inputN, inputM;
 	std::string inputVertix;
 	std::string inputU, inputV;
+	std::vector<struct vertix*> verticesToSearch;
+    int imax = 0;
+	int max = 0;
 
 	getline(std::cin, inputN, ',');
 	getline(std::cin, inputM);
@@ -45,15 +52,19 @@ int main() {
 	const int N = std::stoi(inputN);
 	const int M = std::stoi(inputM);
 
-
-
 	Graph *graph = new Graph(N, M);
-
 
 	for(int i = 0; i < N; i++) {
 		getline(std::cin, inputVertix);
 		const int value = std::stoi(inputVertix);
 		graph->addVertix(value);
+
+		if(value > max) {
+		    max = value;
+		    imax = i;
+		}
+
+		verticesToSearch.push_back(graph->getVertix(i));
 	}
 
 	for(int i = 0; i < M; i++) {
@@ -61,17 +72,16 @@ int main() {
 		getline(std::cin, inputV);
 		const int U = std::stoi(inputU);
 		const int V = std::stoi(inputV);
-		graph->addEdge(U, V);
+		graph->addEdge(V, U);
 	}
 
-	struct vertix* verticeMaxGrade;
-	for(int i = 0; i < graph->getNumberVertices(); i++){
-		if(verticeMaxGrade == NULL){
-			
-		}
-	}
+    int searchedVertices = 0;
+    int verticesToSearchSize = verticesToSearch.size();
 
+	while(verticesToSearchSize != searchedVertices) {
+        struct vertix *currentVertix = graph->getVertix(imax);
 
+    }
 
     return 0;
 }
