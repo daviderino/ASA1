@@ -17,7 +17,6 @@ private:
 public:
 	Graph(int V, int E) {
 		this->V = V;
-		this->E = E;
 	}
 
 	void addVertix(int value) {
@@ -47,6 +46,7 @@ public:
 	            index = i;
 	        }
 	    }
+		max = m;
 
         return index;
 	}
@@ -57,6 +57,10 @@ public:
 
 	void setMax(int m) {
 	    max = m;
+	}
+
+	int getVerticeGrade(int i){
+		return vertices[i].v;
 	}
 
     void DFSAux(int v, bool visited[]) {
@@ -129,6 +133,10 @@ int main() {
         graph->DFS(imax);
         imax = graph->getIMax();
     }
+
+	for(int i = 0; i < graph->getNumberVertices(); i++){
+		std::cout << graph->getVerticeGrade(i) << std::endl; 
+	}
 
     return 0;
 }
