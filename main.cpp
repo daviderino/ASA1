@@ -12,6 +12,7 @@ class Graph {
 private: 
 	int V;
 	int E;
+	int max;
 	std::vector<vertix> vertices;
 public:
 	Graph(int V, int E) {
@@ -35,6 +36,35 @@ public:
 
 	struct vertix* getVertix(int i) {
         return &vertices[i];
+	}
+
+	void setMax(int m) {
+	    max = m;
+	}
+
+    void DFSAux(int v, bool visited[]) {
+        visited[v] = true;
+        vertices[v].corrected = true;
+        vertices[v].v = max;
+
+        for(int i = 0; i < vertices[v].adjacencies.size(); i++) {
+            if(!visited[i] && !vertices[i].corrected) {
+                DFSAux(i, visited);
+            }
+        }
+    }
+
+	void DFS(int vertex) {
+	    bool *visited = new bool[V];
+
+	    for(int i = 0; i < V; i++) {
+	        if(vertices[i].corrected) {
+                continue;
+	        }
+	        visited[i] = false;
+	    }
+
+	    DFSAux(vertex, visited);
 	}
 };
 
@@ -66,6 +96,8 @@ int main() {
 
 		verticesToSearch.push_back(graph->getVertix(i));
 	}
+
+	graph->setMax(max);
 
 	for(int i = 0; i < M; i++) {
 		getline(std::cin, inputU, ' ');
