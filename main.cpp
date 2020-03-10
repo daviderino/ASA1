@@ -4,6 +4,7 @@
 
 struct vertix {
 	int v;
+	bool visited = false;
 	bool corrected = false;
 	std::vector<struct vertix*> adjacencies;
 };
@@ -40,7 +41,7 @@ public:
 	int getIMax() {
 	    int m = 0;
 	    int index = -1;
-	    for(int i = 0; i < vertices.size(); i++) {
+	    for(unsigned int i = 0; i < vertices.size(); i++) {
 	        if(!vertices[i].corrected && vertices[i].v > m) {
 	            m = vertices[i].v;
 	            index = i;
@@ -63,30 +64,23 @@ public:
 		return vertices[i].v;
 	}
 
-    void DFSAux(int v, bool visited[]) {
-        visited[v] = true;
-        vertices[v].corrected = true;
-        vertices[v].v = max;
+    void DFSAux(struct vertix* v) {
+        v->visited = true;
+        v->corrected = true;
+        v->v = max;
         correctedCount++;
 
-        for(int i = 0; i < vertices[v].adjacencies.size(); i++) {
-            if(!visited[i] && !vertices[i].corrected) {
-                DFSAux(i, visited);
+        for(struct vertix* u: v->adjacencies) {
+            if(!u->visited && !u->corrected) {
+                DFSAux(u);
             }
         }
     }
 
 	void DFS(int vertex) {
-	    bool *visited = new bool[V];
 
-	    for(int i = 0; i < V; i++) {
-	        if(vertices[i].corrected) {
-                continue;
-	        }
-	        visited[i] = false;
-	    }
+	    DFSAux(getVertix(vertex));
 
-	    DFSAux(vertex, visited);
 	}
 };
 
