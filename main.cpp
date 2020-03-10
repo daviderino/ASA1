@@ -11,8 +11,8 @@ struct vertix {
 class Graph {
 private: 
 	int V;
-	int E;
 	int max;
+	int correctedCount = 0;
 	std::vector<vertix> vertices;
 public:
 	Graph(int V, int E) {
@@ -34,6 +34,23 @@ public:
 		return V;
 	}
 
+	int getCorrectedCount() {
+        return correctedCount;
+	}
+
+	int getIMax() {
+	    int m = 0;
+	    int index = -1;
+	    for(int i = 0; i < vertices.size(); i++) {
+	        if(!vertices[i].corrected && vertices[i].v > m) {
+	            m = vertices[i].v;
+	            index = i;
+	        }
+	    }
+
+        return index;
+	}
+
 	struct vertix* getVertix(int i) {
         return &vertices[i];
 	}
@@ -46,6 +63,7 @@ public:
         visited[v] = true;
         vertices[v].corrected = true;
         vertices[v].v = max;
+        correctedCount++;
 
         for(int i = 0; i < vertices[v].adjacencies.size(); i++) {
             if(!visited[i] && !vertices[i].corrected) {
@@ -107,12 +125,9 @@ int main() {
 		graph->addEdge(V, U);
 	}
 
-    int searchedVertices = 0;
-    int verticesToSearchSize = verticesToSearch.size();
-
-	while(verticesToSearchSize != searchedVertices) {
-        struct vertix *currentVertix = graph->getVertix(imax);
-
+	while(graph->getCorrectedCount() != graph->getNumberVertices()) {
+        graph->DFS(imax);
+        imax = graph->getIMax();
     }
 
     return 0;
