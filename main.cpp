@@ -4,23 +4,25 @@
 
 struct vertix {
 	int v;
-	std::list<struct vertix*> adjacencies;
+	bool visited = false;
+	bool corrected = false;
+	std::vector<struct vertix*> adjacencies;
 };
 
 class Graph {
 private: 
 	int V;
-	int E;
+	int max;
+	int correctedCount = 0;
 	std::vector<vertix> vertices;
 public:
 	Graph(int V, int E) {
 		this->V = V;
-		this->E = E;
 	}
 
-	void addVertix(int v) {
+	void addVertix(int value) {
 		struct vertix node;
-		node.v = v;
+		node.v = value;
 		vertices.push_back(node);
 	}
 
@@ -31,13 +33,64 @@ public:
 	int getNumberVertices(){
 		return V;
 	}
-};
 
+	int getCorrectedCount() {
+        return correctedCount;
+	}
+
+	int getIMax() {
+	    int m = 0;
+	    int index = -1;
+	    for(unsigned int i = 0; i < vertices.size(); i++) {
+	        if(!vertices[i].corrected && vertices[i].v >= m) {
+	            m = vertices[i].v;
+	            index = i;
+	        }
+	    }
+		max = m;
+
+        return index;
+	}
+
+	struct vertix* getVertix(int i) {
+        return &vertices[i];
+	}
+
+	void setMax(int m) {
+	    max = m;
+	}
+
+	int getVerticeGrade(int i){
+		return vertices[i].v;
+	}
+
+    void DFSAux(struct vertix* v) {
+        v->visited = true;
+        v->corrected = true;
+        v->v = max;
+        correctedCount++;
+
+        for(struct vertix* u: v->adjacencies) {
+            if(!u->visited && !u->corrected) {
+                DFSAux(u);
+            }
+        }
+    }
+
+	void DFS(int vertex) {
+
+	    DFSAux(getVertix(vertex));
+
+	}
+};
 
 int main() {
 	std::string inputN, inputM;
 	std::string inputVertix;
 	std::string inputU, inputV;
+	std::vector<struct vertix*> verticesToSearch;
+    int imax = 0;
+	int max = 0;
 
 	getline(std::cin, inputN, ',');
 	getline(std::cin, inputM);
@@ -45,33 +98,39 @@ int main() {
 	const int N = std::stoi(inputN);
 	const int M = std::stoi(inputM);
 
-
-
 	Graph *graph = new Graph(N, M);
-
 
 	for(int i = 0; i < N; i++) {
 		getline(std::cin, inputVertix);
 		const int value = std::stoi(inputVertix);
 		graph->addVertix(value);
+
+		if(value > max) {
+		    max = value;
+		    imax = i;
+		}
+
+		verticesToSearch.push_back(graph->getVertix(i));
 	}
+
+	graph->setMax(max);
 
 	for(int i = 0; i < M; i++) {
 		getline(std::cin, inputU, ' ');
 		getline(std::cin, inputV);
 		const int U = std::stoi(inputU);
 		const int V = std::stoi(inputV);
-		graph->addEdge(U, V);
+		graph->addEdge(V, U);
 	}
 
-	struct vertix* verticeMaxGrade;
-	for(int i = 0; i < graph->getNumberVertices; i++){
-		if(verticeMaxGrade == NULL){
-			
-		}
+	while(graph->getCorrectedCount() != graph->getNumberVertices()) {
+        graph->DFS(imax);
+        imax = graph->getIMax();
+    }
+
+	for(int i = 0; i < graph->getNumberVertices(); i++){
+		std::cout << graph->getVerticeGrade(i) << std::endl; 
 	}
-
-
 
     return 0;
 }
