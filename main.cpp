@@ -76,10 +76,7 @@ int main() {
 	std::string inputN, inputM;
 	std::string inputVertix;
 	std::string inputU, inputV;
-	std::vector<struct vertix*> verticesToSearch;
 	std::vector<struct vertix*> orderedVertices[21];
-    int imax = 0;
-	int max = 0;
 
 	getline(std::cin, inputN, ',');
 	getline(std::cin, inputM);
