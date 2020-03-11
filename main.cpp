@@ -78,9 +78,7 @@ public:
     }
 
 	void DFS(int vertex) {
-
 	    DFSAux(getVertix(vertex));
-
 	}
 };
 
@@ -88,8 +86,7 @@ int main() {
 	std::string inputN, inputM;
 	std::string inputVertix;
 	std::string inputU, inputV;
-	std::vector<struct vertix*> verticesToSearch;
-    int imax = 0;
+    int imax = -1;
 	int max = 0;
 
 	getline(std::cin, inputN, ',');
@@ -105,12 +102,10 @@ int main() {
 		const int value = std::stoi(inputVertix);
 		graph->addVertix(value);
 
-		if(value > max) {
+		if(value >= max) {
 		    max = value;
 		    imax = i;
 		}
-
-		verticesToSearch.push_back(graph->getVertix(i));
 	}
 
 	graph->setMax(max);
@@ -131,6 +126,8 @@ int main() {
 	for(int i = 0; i < graph->getNumberVertices(); i++){
 		std::cout << graph->getVerticeGrade(i) << std::endl; 
 	}
+
+	delete graph;
 
     return 0;
 }
