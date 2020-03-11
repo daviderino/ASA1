@@ -119,5 +119,6 @@ int main() {
 		std::cout << graph->getVerticeGrade(i) << std::endl; 
 	}
 
+
     return 0;
 }
