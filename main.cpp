@@ -14,16 +14,17 @@ private:
 	int V;
 	int max;
 	int correctedCount = 0;
-	std::vector<vertix> vertices;
+	int iterator;
+	vertix* vertices;
 public:
-	Graph(int V, int E) {
+	Graph(int V) {
 		this->V = V;
+		vertices = new vertix[V];
 	}
 
 	void addVertix(int value) {
-		struct vertix node;
-		node.v = value;
-		vertices.push_back(node);
+		vertices[iterator].v = value;
+		iterator++;
 	}
 
 	void addEdge(int u, int v) {
@@ -36,20 +37,6 @@ public:
 
 	int getCorrectedCount() {
         return correctedCount;
-	}
-
-	int getIMax() {
-	    int m = 0;
-	    int index = -1;
-	    for(unsigned int i = 0; i < vertices.size(); i++) {
-	        if(!vertices[i].corrected && vertices[i].v >= m) {
-	            m = vertices[i].v;
-	            index = i;
-	        }
-	    }
-		max = m;
-
-        return index;
 	}
 
 	struct vertix* getVertix(int i) {
@@ -77,8 +64,11 @@ public:
         }
     }
 
-	void DFS(int vertex) {
-	    DFSAux(getVertix(vertex));
+	void DFS(struct vertix* v) {
+
+		max = v->v;
+	    DFSAux(v);
+
 	}
 };
 
@@ -87,6 +77,7 @@ int main() {
 	std::string inputVertix;
 	std::string inputU, inputV;
 	std::vector<struct vertix*> verticesToSearch;
+	std::vector<struct vertix*> orderedVertices[21];
     int imax = 0;
 	int max = 0;
 
@@ -96,23 +87,15 @@ int main() {
 	const int N = std::stoi(inputN);
 	const int M = std::stoi(inputM);
 
-	Graph *graph = new Graph(N, M);
+	Graph *graph = new Graph(N);
 
 	for(int i = 0; i < N; i++) {
 		getline(std::cin, inputVertix);
 		const int value = std::stoi(inputVertix);
 		graph->addVertix(value);
 
-		if(value > max) {
-		    max = value;
-		    imax = i;
-		}
-
-		verticesToSearch.push_back(graph->getVertix(i));
-
+		orderedVertices[value].push_back(graph->getVertix(i));
 	}
-
-	graph->setMax(max);
 
 	for(int i = 0; i < M; i++) {
 		getline(std::cin, inputU, ' ');
@@ -123,8 +106,13 @@ int main() {
 	}
 
 	while(graph->getCorrectedCount() != graph->getNumberVertices()) {
-        graph->DFS(imax);
-        imax = graph->getIMax();
+		for(int a = 20; a >= 0; a--){
+			for(vertix* v: orderedVertices[a]){
+				if(!v->corrected){
+					graph->DFS(v);
+				}
+			}
+		}
     }
 
 	for(int i = 0; i < graph->getNumberVertices(); i++){
