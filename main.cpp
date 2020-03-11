@@ -78,9 +78,7 @@ public:
     }
 
 	void DFS(int vertex) {
-
 	    DFSAux(getVertix(vertex));
-
 	}
 };
 
@@ -111,6 +109,7 @@ int main() {
 		}
 
 		verticesToSearch.push_back(graph->getVertix(i));
+
 	}
 
 	graph->setMax(max);
@@ -131,6 +130,7 @@ int main() {
 	for(int i = 0; i < graph->getNumberVertices(); i++){
 		std::cout << graph->getVerticeGrade(i) << std::endl; 
 	}
+
 
     return 0;
 }
