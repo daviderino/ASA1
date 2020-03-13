@@ -64,10 +64,8 @@ public:
     }
 
 	void DFS(struct vertix* v) {
-
 		max = v->v;
 	    DFSAux(v);
-
 	}
 };
 
