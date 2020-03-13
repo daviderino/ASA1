@@ -99,20 +99,21 @@ int main() {
 		graph->addEdge(V, U);
 	}
 
-	while(graph->getCorrectedCount() != graph->getNumberVertices()) {
-		for(int a = 20; a >= 0; a--){
-			for(vertix* v: orderedVertices[a]){
-				if(!v->corrected){
-					graph->DFS(v);
-				}
+	for(int a = 20; a >= 0; a--) {
+		for(vertix* v: orderedVertices[a]) {
+			if(graph->getCorrectedCount() == graph->getNumberVertices()) {
+				a = -1;
+				break;
+			}
+			if(!v->corrected){
+				graph->DFS(v);
 			}
 		}
-    }
+	}
 
 	for(int i = 0; i < graph->getNumberVertices(); i++){
 		std::cout << graph->getVerticeGrade(i) << std::endl; 
 	}
-
 
     return 0;
 }
